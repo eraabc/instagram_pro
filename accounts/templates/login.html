@@ -10,9 +10,9 @@
             <h2 class="text-center mb-4">Вход</h2>
             <form action="" method="post" class="border p-4 rounded shadow-sm bg-light">
                 {% csrf_token %}
-                {% if has_error %}
+                {% if form.non_field_errors %}
                     <div class="alert alert-danger text-center">
-                        Неверное имя пользователя или пароль.
+                        {{ form.non_field_errors }}
                     </div>
                 {% endif %}
                 <div class="mb-3">
