@@ -1,7 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model, authenticate
 from django.db.models import Q
+from django.forms import ModelForm
 
 User = get_user_model()
 
@@ -52,3 +53,15 @@ class MyUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ['username' , 'email', 'password1', 'password2', 'avatar', 'first_name', 'bio', 'phone_number','gender']
+
+
+class MyUserChangeForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.help_text = None
+            field.widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = User
+        fields = ['username' , 'email', 'avatar', 'first_name', 'bio', 'phone_number','gender']

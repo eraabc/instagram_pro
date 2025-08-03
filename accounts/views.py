@@ -1,13 +1,14 @@
 from urllib.parse import urlencode
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, get_user_model
 from django.db.models import Q
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from webapp.forms import SearchForm
-from .forms import CustomAuthenticationForm, MyUserCreationForm
+from .forms import CustomAuthenticationForm, MyUserCreationForm, MyUserChangeForm
 
 User = get_user_model()
 
@@ -88,3 +89,16 @@ class ProfileListView(ListView):
             result['query'] = urlencode({'search': self.search_value})
             result['search'] = self.search_value
         return result
+
+
+class ProfileUpdateView(PermissionRequiredMixin,UpdateView):
+    model = get_user_model()
+    form_class = MyUserChangeForm
+    template_name = 'profile/update_profile.html'
+    context_object_name = 'user_obj'
+
+    def has_permission(self):
+        return  self.get_object() == self.request.user
+
+    def get_success_url(self):
+        return reverse('accounts:profile', kwargs={'pk': self.object.pk})
