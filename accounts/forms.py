@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth import get_user_model, authenticate
 from django.db.models import Q
 from django.forms import ModelForm
@@ -65,3 +65,26 @@ class MyUserChangeForm(ModelForm):
     class Meta:
         model = User
         fields = ['username' , 'email', 'avatar', 'first_name', 'bio', 'phone_number','gender']
+
+
+
+
+class StyledPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label='Старый пароль',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+        })
+    )
+    new_password1 = forms.CharField(
+        label='Новый пароль',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+        })
+    )
+    new_password2 = forms.CharField(
+        label='Подтвердите новый пароль',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+        })
+    )

@@ -21,6 +21,8 @@
                     <h4 class="mb-0 me-sm-3"><strong>{{ user_obj.username }}</strong></h4>
                     {% if user == user_obj %}
                         <a href="{% url 'accounts:update_profile' user.pk %}" class="btn btn-outline-secondary btn-sm">Редактировать профиль</a>
+                        <a href="{% url 'accounts:change_password' user.pk %}" class="btn btn-outline-secondary btn-sm">Сменить пароль</a>
+                        <a href="{% url 'accounts:delete_profile' user.pk %}" class="btn btn-outline-danger btn-sm">Удалить аккаунт</a>
                     {% endif %}
                 </div>
 

@@ -1,14 +1,15 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import render, redirect
+from django.contrib.auth.views import PasswordChangeView
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
 from django.db.models import Q
-from django.urls import reverse
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 from webapp.forms import SearchForm
-from .forms import CustomAuthenticationForm, MyUserCreationForm, MyUserChangeForm
+from .forms import CustomAuthenticationForm, MyUserCreationForm, MyUserChangeForm, StyledPasswordChangeForm
 
 User = get_user_model()
 
@@ -102,3 +103,25 @@ class ProfileUpdateView(PermissionRequiredMixin,UpdateView):
 
     def get_success_url(self):
         return reverse('accounts:profile', kwargs={'pk': self.object.pk})
+
+
+class ChangePasswordView(PermissionRequiredMixin,PasswordChangeView):
+    template_name = 'profile/change_password.html'
+    form_class = StyledPasswordChangeForm
+
+    def has_permission(self):
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        return user == self.request.user
+
+    def get_success_url(self):
+        return reverse('accounts:profile', kwargs={'pk': self.request.user.pk})
+
+
+class DeleteProfileView(PermissionRequiredMixin,DeleteView):
+    template_name = 'profile/delete_profile.html'
+    model = User
+    success_url = reverse_lazy('webapp:index')
+    permission_required = 'webapp.delete_user'
+
+    def has_permission(self):
+        return super().has_permission() or self.request.user == self.get_object()

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block  content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <p class="mt-5">Вы уверены что хотите удалить аккаунт - {{ user.username }} ?</p>
+        <a class="btn btn-primary" href="{% url 'webapp:index' %}">Отмена</a>
+        <button class="btn btn-danger" type="submit">Да, удалить</button>
+    </form>
+
+
+{% endblock %}
