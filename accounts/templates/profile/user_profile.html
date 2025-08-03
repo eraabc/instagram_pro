@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="card w-25 mx-auto my-5">
+        {% if user_obj.avatar %}
+            <img src="{{ user_obj.avatar.url }}" class="card-img-top" alt="Avatar">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">Username: {{ user_obj.username }}</h5>
+            <p class="card-text">
+                {% if user_obj.first_name %}
+                    Имя: {{ user_obj.first_name }}
+                {% endif %}
+            </p>
+            <p class="card-text">
+                <p class="card-text">
+                {% if user_obj.last_name %}
+                    Фамилия: {{ user_obj.last_name }}
+                {% endif %}
+            </p>
+            <p class="card-text">
+            <p class="card-text">
+                {% if user_obj.comments %}
+                    Колличество коментарий: {{ user_obj.comments.count }}
+                {% endif %}
+            </p>
+
+        </div>
+    </div>
+    {% include 'partials/topic_list_partial.html' %}
+{% endblock %}
