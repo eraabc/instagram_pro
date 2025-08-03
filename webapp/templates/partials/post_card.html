@@ -15,6 +15,16 @@
         <div class="mb-2">
             <i class="bi bi-heart me-3 fs-5"></i>
             <i class="bi bi-chat me-3 fs-5"></i>
+            {% if post.author == user or perms.webapp.change_post %}
+                <a class="text-dark text-decoration-none" href="{% url 'webapp:update_post' post.pk %}">
+                    <i class="bi bi-pencil me-3 fs-5" title="Редактировать"></i>
+                </a>
+            {% endif %}
+            {% if post.author == user or perms.webapp.delete_post %}
+                <a class="text-dark text-decoration-none" href="{% url 'webapp:delete_post' post.pk %}">
+                    <i class="bi bi-trash me-3  fs-5 text-danger" title="Удалить"></i>
+                </a>
+            {% endif %}
         </div>
 
         <p class="mb-1"><strong>128</strong> отметок "Нравится"</p>
