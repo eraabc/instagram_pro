@@ -28,20 +28,43 @@
         {% if request.path != '/accounts/profiles/' %}
             <li class="nav-item mx-3">
               <a class="nav-link" href="{% url 'accounts:profiles' %}">
-                    <i class="bi bi-search" style="font-size: 1.3rem;"></i>
+                    <i class="bi bi-search fs-3"></i>
               </a>
             </li>
          {% endif %}
-        <li class="nav-item mx-3">
-          <a class="nav-link" href="{% url 'webapp:create_post' %}">
-            <i class="bi bi-plus-square nav-icon fs-3"></i>
-          </a>
-        </li>
-        <li class="nav-item mx-3">
-          <a class="nav-link" href="{% url 'accounts:profile' user.pk %}">
-            <i class="bi bi-person nav-icon fs-3"></i>
-          </a>
-        </li>
+          {% if user.is_authenticated %}
+                <li class="nav-item mx-3">
+                  <a class="nav-link" href="{% url 'webapp:create_post' %}">
+                    <i class="bi bi-plus-square nav-icon fs-3"></i>
+                  </a>
+                </li>
+                <li class="nav-item mx-3">
+                  <a class="nav-link" href="{% url 'accounts:profile' user.pk %}">
+                    <i class="bi bi-person nav-icon fs-3"></i>
+                  </a>
+                </li>
+                  <li class="nav-item mx-3">
+                      <form action="{% url 'accounts:logout' %}?next={{ request.get_full_path }}" method="post"
+                            class="d-inline">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-link p-0 border-0 text-danger" title="Выйти">
+                              <i class="bi bi-box-arrow-right fs-3"></i>
+                          </button>
+                      </form>
+                  </li>
+          {% else %}
+              <li class="nav-item mx-3">
+                  <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" title="Войти">
+                       <i class="bi bi-box-arrow-in-right fs-3"></i>
+                  </a>
+              </li>
+               <li class="nav-item mx-3">
+                  <a class="nav-link" href="{% url 'accounts:register' %}?next={{ request.get_full_path }}" title="Зарегестрироваться">
+                       <i class="bi bi-person-plus fs-3"></i>
+                  </a>
+              </li>
+          {% endif %}
+
       </ul>
     </div>
   </nav>
