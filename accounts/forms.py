@@ -1,12 +1,33 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from django.db.models import Q
 
 User = get_user_model()
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label='Логин или Email', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
+    def clean(self):
+        username_or_email = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username_or_email and password:
+            try:
+                user_obj = User.objects.get(Q(username=username_or_email) | Q(email=username_or_email))
+                username = user_obj.username
+            except User.DoesNotExist:
+                username = username_or_email
+
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    "Неверный логин, email или пароль."
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
 
 
 class MyUserCreationForm(UserCreationForm):
