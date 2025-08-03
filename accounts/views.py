@@ -49,8 +49,8 @@ class ProfileView(DetailView):
 
 
     def get_context_data(self, **kwargs):
-        topics = self.object.topics.order_by('-created_at')
-        kwargs['topics'] = topics
+        posts = self.object.posts.order_by('-id')
+        kwargs['posts'] = posts
         return super().get_context_data(**kwargs)
 
 

@@ -4,6 +4,9 @@
 
 {% block content %}
 
-<h1>Home</h1>
-
+    {% for post in posts %}
+        {% include 'partials/post_card.html' %}
+        {% empty %}
+            <h5>Пока постов нет</h5>
+    {% endfor %}
 {% endblock %}
