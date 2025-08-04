@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 
 from webapp.forms import PostForm, SearchForm
 from webapp.models import PostModel
@@ -49,3 +49,8 @@ class DeletePostView(PermissionRequiredMixin,DeleteView):
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object().author
 
+
+class DetailPostView(DetailView):
+    template_name = 'post/detail_post.html'
+    model = PostModel
+    context_object_name = 'post'

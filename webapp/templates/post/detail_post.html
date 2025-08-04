@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Пост - {{ post.author.username }}
+{% endblock %}
+
+{% block content %}
+	{% include 'partials/post_card.html' %}
+{% endblock %}
