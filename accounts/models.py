@@ -10,3 +10,18 @@ class MyUser(AbstractUser):
     phone_number = models.CharField(verbose_name='Номер телефона',max_length=20,blank=True,null=True)
     gender = models.CharField(choices=[('male','мужчина'),('female','женщина'),('other','остальное')],
                               verbose_name='пол',max_length=10,blank=True,null=True)
+
+
+
+class Follow(models.Model):
+    follower = models.ForeignKey(MyUser,on_delete=models.CASCADE,related_name='followings',verbose_name='Подписывается')
+    following = models.ForeignKey(MyUser,on_delete=models.CASCADE,related_name='followers',verbose_name='На него подписываются')
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='Время подписки')
+
+    def __str__(self):
+        return f"{self.follower} на {self.following}"
+
+    class Meta:
+        db_table = 'follow'
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'

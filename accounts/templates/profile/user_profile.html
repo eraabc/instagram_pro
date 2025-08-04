@@ -29,9 +29,9 @@
                 </div>
 
                 <div class="d-flex flex-wrap mb-2 gap-3">
-                    <div><strong>*</strong> публикаций</div>
-                    <div><strong>*</strong> подписчиков</div>
-                    <div><strong>*</strong> Подписки</div>
+                    <div><strong>{{ user_obj.posts.count }}</strong> публикаций</div>
+                    <div><strong>{{ user_obj.followers.count }}</strong> подписчиков</div>
+                    <div><strong>{{ user_obj.followings.count }}</strong> Подписки</div>
                 </div>
 
                 <div>
@@ -42,6 +42,18 @@
                     {% endif %}
                     <p class="mb-0">{% if user_obj.bio %}{{ user_obj.bio }}{% else %}нет био{% endif %}</p>
                 </div>
+                {% if user.is_authenticated and user_obj != user%}
+                    <div class="mt-4">
+                        <form method="post" action="{% url 'accounts:follow' user_obj.pk %}">
+                            {% csrf_token %}
+                            {% if is_following %}
+                                <button type="submit" class="btn btn-danger">Отписаться</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary">Подписаться</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

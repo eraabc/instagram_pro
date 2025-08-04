@@ -1,7 +1,9 @@
 from urllib.parse import urlencode
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
 from django.db.models import Q
@@ -10,6 +12,7 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 
 from webapp.forms import SearchForm
 from .forms import CustomAuthenticationForm, MyUserCreationForm, MyUserChangeForm, StyledPasswordChangeForm
+from .models import Follow
 
 User = get_user_model()
 
@@ -49,10 +52,13 @@ class ProfileView(DetailView):
     template_name = 'profile/user_profile.html'
     context_object_name = 'user_obj'
 
-
     def get_context_data(self, **kwargs):
         posts = self.object.posts.order_by('-id')
         kwargs['posts'] = posts
+        if self.request.user.is_authenticated:
+            kwargs['is_following'] = self.get_object().followers.filter(follower=self.request.user).exists()
+        else:
+            kwargs['is_following'] = False
         return super().get_context_data(**kwargs)
 
 
@@ -125,3 +131,20 @@ class DeleteProfileView(PermissionRequiredMixin,DeleteView):
 
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object()
+
+
+@login_required
+def follow_func(request,pk):
+    if request.method == 'POST':
+        follower = request.user
+        following = get_object_or_404(User, pk=pk)
+        if follower == following:
+            return HttpResponseForbidden("Нельзя подписываться на самого себя")
+        is_folowed = Follow.objects.filter(follower = follower, following = following).first()
+
+        if is_folowed:
+            is_folowed.delete()
+        else:
+            Follow.objects.create(follower = follower, following = following)
+
+        return redirect('accounts:profile', pk=pk)
