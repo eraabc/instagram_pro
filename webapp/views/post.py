@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 
-from webapp.forms import PostForm, SearchForm
+from webapp.forms import PostForm, SearchForm, CommentForm
 from webapp.models import PostModel
 
 
@@ -57,5 +57,6 @@ class DetailPostView(DetailView):
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        result['comments'] = self.object.comments.order_by('-created_at')
+        result['comments'] = self.object.comments.order_by('created_at')
+        result['form'] = CommentForm()
         return result

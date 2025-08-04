@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Comment(models.Model):
-   topic = models.ForeignKey('webapp.PostModel', related_name='comments', on_delete=models.CASCADE, verbose_name='Пост')
+   post = models.ForeignKey('webapp.PostModel', related_name='comments', on_delete=models.CASCADE, verbose_name='Пост')
    text = models.TextField(max_length=400, verbose_name='Комментарий')
    author = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=1, verbose_name='Автор',
                               related_name='comments')

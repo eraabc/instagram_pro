@@ -1,6 +1,6 @@
 from django.urls import path
 
-from webapp.views import IndexView, CreatePostView,UpdatePostView,DeletePostView,DetailPostView
+from webapp.views import IndexView, CreatePostView,UpdatePostView,DeletePostView,DetailPostView,AddCommentView
 
 app_name = 'webapp'
 urlpatterns = [
@@ -9,4 +9,6 @@ urlpatterns = [
     path('post/<int:pk>/update/',UpdatePostView.as_view(),name='update_post'),
     path('post/<int:pk>/delete/', DeletePostView.as_view(), name='delete_post'),
     path('post/<int:pk>/',DetailPostView.as_view(),name='detail_post'),
+
+    path('post/<int:pk>/add-comment/',AddCommentView.as_view(),name='add_comment'),
 ]

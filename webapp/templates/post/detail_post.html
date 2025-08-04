@@ -34,4 +34,16 @@
             <p class="text-muted">Комментариев пока нет.</p>
         {% endfor %}
     </div>
+    <div class="my-5">
+        {% if request.user.is_authenticated %}
+            <form method="post" action="{% url 'webapp:add_comment' post.pk %}" class="d-flex mt-2 px-2">
+                {% csrf_token %}
+                {{ form.text }}
+                <button type="submit" class="btn btn-sm btn-primary rounded-pill">Отправить</button>
+            </form>
+        {% else %}
+            <p class="text-muted px-2">Войдите чтобы оставить комментарий</p>
+        {% endif %}
+    </div>
+
 {% endblock %}
