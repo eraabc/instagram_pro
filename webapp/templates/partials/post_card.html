@@ -1,8 +1,13 @@
 <div class="card mb-4 shadow-sm mt-5">
     <div class="card-header bg-white d-flex align-items-center">
         <a class="text-decoration-none text-dark" href="{% url 'accounts:profile' post.author.id %}">
-            <img src="{{ post.author.avatar.url }}" alt="Post" class="rounded-circle me-2"
+            {% if post.author.avatar %}
+            <img src="{{ post.author.avatar.url }}" alt="Avatar" class="rounded-circle me-2"
                  style="width: 40px; height: 40px; object-fit: cover;">
+            {% else %}
+                <img src="https://www.shutterstock.com/image-vector/profile-picture-user-vector-illustration-600nw-2482138073.jpg" class="rounded-circle me-2" style="width: 40px;height: 40px;object-fit: cover"
+                 alt="Avatar">
+            {% endif %}
             <strong>{{ post.author.username }}</strong>
         </a>
 

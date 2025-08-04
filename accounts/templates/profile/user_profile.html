@@ -13,6 +13,8 @@
                 {% if user_obj.avatar %}
                     <img src="{{ user_obj.avatar.url }}" alt="Avatar"
                          class="rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+                {% else %}
+                    <img src="https://www.shutterstock.com/image-vector/profile-picture-user-vector-illustration-600nw-2482138073.jpg" class="rounded-circle" style="width: 200px;height: 200px;object-fit: cover" alt="Avatar">
                 {% endif %}
             </div>
 
