@@ -11,6 +11,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 from webapp.forms import SearchForm
+from webapp.models import LikesModel
 from .forms import CustomAuthenticationForm, MyUserCreationForm, MyUserChangeForm, StyledPasswordChangeForm
 from .models import Follow
 
@@ -59,6 +60,11 @@ class ProfileView(DetailView):
             kwargs['is_following'] = self.get_object().followers.filter(follower=self.request.user).exists()
         else:
             kwargs['is_following'] = False
+        if self.request.user.is_authenticated:
+            likes = LikesModel.objects.filter(user=self.request.user).values_list('post_id', flat=True)
+            kwargs['liked_posts'] = likes
+        else:
+            kwargs['liked_posts'] = []
         return super().get_context_data(**kwargs)
 
 

@@ -1,12 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.template.context_processors import request
-
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 
 from accounts.models import Follow
-from webapp.forms import PostForm, SearchForm, CommentForm
-from webapp.models import PostModel
+from webapp.forms import PostForm, CommentForm
+from webapp.models import PostModel, LikesModel
 
 
 class IndexView(ListView):
@@ -19,6 +19,15 @@ class IndexView(ListView):
             return PostModel.objects.none()
         following_users = Follow.objects.filter(follower=self.request.user).values_list('following', flat=True)
         return PostModel.objects.filter(author__in=following_users).order_by('-id')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            likes = LikesModel.objects.filter(user=self.request.user).values_list('post_id', flat=True)
+            context['liked_posts'] = likes
+        else:
+            context['liked_posts'] = []
+        return context
 
 class CreatePostView(LoginRequiredMixin,CreateView):
     form_class = PostForm
@@ -65,4 +74,24 @@ class DetailPostView(DetailView):
         result = super().get_context_data(**kwargs)
         result['comments'] = self.object.comments.order_by('created_at')
         result['form'] = CommentForm()
+        if self.request.user.is_authenticated:
+            likes = LikesModel.objects.filter(user=self.request.user).values_list('post_id', flat=True)
+            result['liked_posts'] = likes
+        else:
+            result['liked_posts'] = []
         return result
+
+
+@login_required
+def like_post(request, pk):
+    if request.method == 'POST':
+        user = request.user
+        post = get_object_or_404(PostModel, pk=pk)
+        is_liked = LikesModel.objects.filter(user=user, post=post).first()
+        if is_liked:
+            is_liked.delete()
+        else:
+            LikesModel.objects.create(user=user, post=post)
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+

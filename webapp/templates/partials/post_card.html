@@ -17,9 +17,26 @@
          style="object-fit: cover; max-height: 500px;"></a>
 
     <div class="card-body pb-1">
-        <div class="mb-2">
-            <i class="bi bi-heart me-3 fs-5"></i>
-            <i class="bi bi-chat me-3 fs-5"></i>
+        <div class="mb-2 d-flex align-items-center">
+            {% if user.is_authenticated %}
+                <form action="{% url 'webapp:like_post' post.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-like">
+                        {% if post.id in liked_posts %}
+                            <i class="bi bi-heart me-3 fs-5 text-danger" title="Убрать лайк"></i>
+                        {% else %}
+                            <i class="bi bi-heart me-3 fs-5" title="Поставить лайк"></i>
+                        {% endif %}
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}"><i class="bi bi-heart me-3 fs-5"></i></a>
+            {% endif %}
+
+            <a class="text-dark text-decoration-none" href="{% url 'webapp:detail_post' post.pk %}">
+                <strong class="ms-2 me-1">{{ post.comments.count }}</strong>
+                <i class="bi bi-chat me-3 fs-5"></i>
+            </a>
             {% if post.author == user or perms.webapp.change_post %}
                 <a class="text-dark text-decoration-none" href="{% url 'webapp:update_post' post.pk %}">
                     <i class="bi bi-pencil me-3 fs-5" title="Редактировать"></i>
@@ -32,7 +49,7 @@
             {% endif %}
         </div>
 
-        <p class="mb-1"><strong>128</strong> отметок "Нравится"</p>
+        <p class="mb-1"><strong>{{ post.likes.count }}</strong> отметок "Нравится"</p>
 
         <a class="text-decoration-none text-dark" href="{% url 'accounts:profile' post.author.id %}">
             <p class="mb-0">

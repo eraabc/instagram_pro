@@ -1,0 +1,7 @@
+.btn-like{
+    background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+}
