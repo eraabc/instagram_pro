@@ -27,7 +27,11 @@
                     </a>
                     <span class="ms-1 fs-5 text-break">{{ comment.text }}</span>
                     <div class="text-muted small">{{ comment.created_at|date:"Y-m-d H:i" }}</div>
-
+                </div>
+                <div>
+                    {% if comment.author == user or perms.webapp.delete_comment %}
+                        <a class="btn btn-danger" href="{% url 'webapp:delete-comment' comment.pk %}">Удалить</a>
+                    {% endif %}
                 </div>
             </div>
         {% empty %}
