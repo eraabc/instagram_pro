@@ -1,8 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.template.context_processors import request
 
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 
+from accounts.models import Follow
 from webapp.forms import PostForm, SearchForm, CommentForm
 from webapp.models import PostModel
 
@@ -10,9 +12,13 @@ from webapp.models import PostModel
 class IndexView(ListView):
     model = PostModel
     template_name = 'post/index.html'
-    ordering = ['-id']
     context_object_name = 'posts'
 
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return PostModel.objects.none()
+        following_users = Follow.objects.filter(follower=self.request.user).values_list('following', flat=True)
+        return PostModel.objects.filter(author__in=following_users).order_by('-id')
 
 class CreatePostView(LoginRequiredMixin,CreateView):
     form_class = PostForm
