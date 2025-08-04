@@ -1,0 +1,112 @@
+[
+{
+  "model": "accounts.myuser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$pio8YaFCGgOTbOKukLoSu1$EEXpWXnAiU4VA5hgz2nycmTplZzpZCYKxuJjZBksqPE=",
+    "last_login": "2025-08-04T13:59:56.086Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-08-03T06:06:21.339Z",
+    "avatar": "",
+    "bio": null,
+    "phone_number": null,
+    "gender": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.myuser",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$NQqs1bmRvHgzBtgkf52ZBW$V1HNS8NbP7Gjzh0Xb0fbKtmKPguZBPRw7nUEJFO9eBs=",
+    "last_login": "2025-08-04T09:50:21.189Z",
+    "is_superuser": false,
+    "username": "eraabc",
+    "first_name": "erbolot",
+    "last_name": "",
+    "email": "eraabcera@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-03T08:17:31.249Z",
+    "avatar": "avatars/2._Хаски.jpg",
+    "bio": "Okkkkkkkkkkkk",
+    "phone_number": "+99670303233",
+    "gender": "male",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.myuser",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$EHi2MDFr2nTLXzMGQxs2oa$BT4tHSogBC1Eud91XUq6FskZJtywLPLXSJ7eF5CfGkk=",
+    "last_login": "2025-08-03T08:24:35.930Z",
+    "is_superuser": false,
+    "username": "bek",
+    "first_name": "",
+    "last_name": "",
+    "email": "bek@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-03T08:24:34.115Z",
+    "avatar": "avatars/2_Nd1T5V2._Хаски.jpg",
+    "bio": "",
+    "phone_number": "+996123",
+    "gender": "male",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.myuser",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$K6XlszCNt1CN9cJ6Fgi7wF$E6c6XFSbwGq9nyAKlfyayosoJ1tAhvylH4htRQ2Zrio=",
+    "last_login": "2025-08-04T07:13:57.996Z",
+    "is_superuser": false,
+    "username": "noname",
+    "first_name": "Vladimirr",
+    "last_name": "",
+    "email": "noname@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-03T16:09:20.375Z",
+    "avatar": "avatars/7._Бабочка.jpg",
+    "bio": "что сказать",
+    "phone_number": "123213423",
+    "gender": "male",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.myuser",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$kUEQqqFFqmFBooMYgMEXFY$jwCZ+q4EQpGgs1ZvcRsUYyTOj8qczoVys+LBETYBNoc=",
+    "last_login": "2025-08-04T13:44:32.192Z",
+    "is_superuser": false,
+    "username": "user1",
+    "first_name": "Kot",
+    "last_name": "",
+    "email": "user@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-04T13:44:30.240Z",
+    "avatar": "avatars/4._Кот_с_наушниками.jpg",
+    "bio": "My bio",
+    "phone_number": "+9961231323",
+    "gender": "female",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
