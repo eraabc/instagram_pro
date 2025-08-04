@@ -54,3 +54,8 @@ class DetailPostView(DetailView):
     template_name = 'post/detail_post.html'
     model = PostModel
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result['comments'] = self.object.comments.order_by('-created_at')
+        return result
